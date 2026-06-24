@@ -57,15 +57,16 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-
 .main {
     background-color: #f4f6f8;
 }
 
+/* Responsif ukuran font untuk mobile */
 .geoheat-title {
-    font-size: 60px;
+    font-size: clamp(34px, 7vw, 60px);
     font-weight: 800;
-    margin-bottom: 0px;
+    margin-bottom: 8px;
+    line-height: 1.1;
 }
 
 .geo-blue {
@@ -76,13 +77,14 @@ st.markdown("""
     color: #F57C00;
 }
 
+/* Memperbaiki tinggi baris agar tidak menumpuk saat teks wrap di HP */
 .subtitle {
-    color: #444444;
-    font-size: 22px;
-    font-weight: 500;
-    line-height: 0.3;
+    color: #334155 !important;
+    font-size: clamp(12px, 3.5vw, 20px);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.03em;
 }
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -91,22 +93,18 @@ col1, col2 = st.columns([1,4])
 with col1:
     st.image(
         "logo_geoheat.png",
-        width=200
+        width=160
     )
 
 with col2:
-
     st.markdown("""
-    <div style="padding-top:30px;">
-
+    <div>
     <div class="geoheat-title">
         <span class="geo-blue">Geo</span><span class="heat-orange">Heat</span>
     </div>
-
     <div class="subtitle">
         LAND SURFACE TEMPERATURE MAPPING PLATFORM
     </div>
-
     </div>
     """, unsafe_allow_html=True)
 
@@ -136,41 +134,27 @@ st.markdown(f"""
         border-right: 1px solid #e2e8f0 !important;
     }}
     
-    /* Header Utama */
-    .hero-container {{
-        background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #0d9488 100%);
-        padding: 3rem 2.5rem;
-        border-radius: 24px;
-        color: white;
-        margin-bottom: 2.5rem;
-        box-shadow: 0 10px 30px -10px rgba(30, 58, 138, 0.3);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }}
-    .hero-title {{
-        font-size: 2.8rem;
-        font-weight: 800;
-        margin-bottom: 0.5rem;
-        letter-spacing: -0.05em;
-        color: #ffffff !important;
-    }}
-    .hero-subtitle {{
-        font-size: 1.2rem;
-        font-weight: 300;
-        opacity: 0.95;
-    }}
-    
-    /* Desain Kartu Glassmorphism (containers) */
+    /* Desain Kartu Glassmorphism dengan proteksi warna teks gelap */
     div[data-testid="stVerticalBlockBorder"] {{
-        background: rgba(255, 255, 255, 0.92) !important;
+        background: rgba(255, 255, 255, 0.96) !important;
         backdrop-filter: blur(12px) !important;
         -webkit-backdrop-filter: blur(12px) !important;
-        padding: 2.2rem !important;
+        padding: clamp(1rem, 3vw, 2.2rem) !important;
         border-radius: 20px !important;
-        border: 1px solid rgba(226, 232, 240, 0.8) !important;
+        border: 1px solid rgba(226, 232, 240, 0.9) !important;
         box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.1) !important;
-        margin-bottom: 2rem !important;
+        margin-bottom: 1.5rem !important;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }}
+    
+    /* Memaksa semua teks di dalam kontainer putih agar berwarna gelap (Fix tulisan hilang) */
+    div[data-testid="stVerticalBlockBorder"] *, 
+    div[data-testid="stVerticalBlockBorder"] p, 
+    div[data-testid="stVerticalBlockBorder"] div,
+    div[data-testid="stVerticalBlockBorder"] li {{
+        color: #1e293b !important;
+    }}
+    
     div[data-testid="stVerticalBlockBorder"]:hover {{
         background: #ffffff !important;
         box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.15) !important;
@@ -178,30 +162,32 @@ st.markdown(f"""
         transform: translateY(-2px);
     }}
     
-    /* Judul Bagian */
+    /* Judul Bagian di dalam Kartu */
     .card-title {{
-        color: #0f172a;
-        font-size: 1.45rem;
-        font-weight: 800;
-        margin-bottom: 1.5rem;
-        border-left: 5px solid #3b82f6;
-        padding-left: 12px;
-        letter-spacing: -0.02em;
+        color: #0f172a !important;
+        font-size: 1.35rem !important;
+        font-weight: 800 !important;
+        margin-bottom: 1.2rem !important;
+        border-left: 5px solid #3b82f6 !important;
+        padding-left: 12px !important;
+        letter-spacing: -0.02em !important;
     }}
     
-    /* Kartu Statistik Berwarna (Metrik Kustom) */
+    /* Kartu Statistik Berwarna (Metrik Kustom) - Tetap Putih */
     .metric-grid {{
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
         margin-bottom: 2rem;
     }}
     .metric-box {{
         padding: 1.5rem;
         border-radius: 14px;
-        color: white;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }}
+    .metric-box * {{
+        color: #ffffff !important;
     }}
     .metric-box:hover {{
         transform: translateY(-4px);
@@ -223,10 +209,10 @@ st.markdown(f"""
         overflow: hidden;
     }}
     .teori-table th {{
-        background-color: #1e3a8a; color: white; text-align: left; padding: 14px; font-weight: 700;
+        background-color: #1e3a8a; color: white !important; text-align: left; padding: 14px; font-weight: 700;
     }}
     .teori-table td {{
-        padding: 14px; border-bottom: 1px solid rgba(226, 232, 240, 0.6); font-size: 0.95rem; color: #1e293b;
+        padding: 14px; border-bottom: 1px solid rgba(226, 232, 240, 0.6); font-size: 0.95rem; color: #1e293b !important;
     }}
     </style>
 """, unsafe_allow_html=True)
@@ -243,8 +229,6 @@ with st.sidebar:
 # ==============================================================================
 if menu == "Beranda (Home)":
     
-    # Hero Header HTML/CSS
-    
     # Initialize session state for keeping results
     if 'lst_results' not in st.session_state:
         st.session_state.lst_results = None
@@ -260,18 +244,15 @@ if menu == "Beranda (Home)":
         with col1:
             if data_level == "Landsat Collection 2 Level-1":
                 mtl_file = st.file_uploader("Unggah Berkas Metadata Landsat (MTL.txt)", type=["txt"])
-
             else:
-             mtl_file = None
+                mtl_file = None
 
             if data_level == "Landsat Collection 2 Level-1":
                 b10_file = st.file_uploader("Unggah Band 10 (Thermal)", type=["tif", "tiff"])
-
             else:
                 b10_file = st.file_uploader("Unggah ST_B10 (Surface Temperature)", type=["tif", "tiff"])
         with col2:
             b4_file = st.file_uploader("Unggah Band 4 (Red)", type=["tif", "tiff"])
-    
             b5_file = st.file_uploader("Unggah Band 5 (NIR)", type=["tif", "tiff"])
             
     
@@ -328,7 +309,6 @@ if menu == "Beranda (Home)":
                         radiance = (M_L * b10) + A_L
                         radiance[radiance <= 0] = 0.001
                         kelvin = (K2 / np.log((K1 / radiance) + 1))
-
                     else:
                         st.info("Metode: ST_B10 → NDVI → LSE → LST")
                         surface_temp_kelvin = ((b10 * 0.00341802)+ 149.0)
@@ -361,7 +341,6 @@ if menu == "Beranda (Home)":
                                 f"(M_L={M_L:.7f}, A_L={A_L:.5f}, "
                                 f"K1={K1:.2f}, K2={K2:.2f})"
                             )
-
                         else:
                             calibration_detail = (
                                 f"Kalibrasi Default "
@@ -490,12 +469,10 @@ if menu == "Beranda (Home)":
 elif menu == "Tentang Aplikasi (About)":
 
     with st.container(border=True):
-
         st.markdown(
             '<div class="card-title">GeoHeat</div>',
             unsafe_allow_html=True
         )
-
         st.markdown(
             """
             <div style='text-align: justify;'>
@@ -513,7 +490,6 @@ elif menu == "Tentang Aplikasi (About)":
             '<div class="card-title">Tujuan Aplikasi</div>',
             unsafe_allow_html=True
         )
-
         st.markdown(
             """
             <div style='text-align: justify;'>
@@ -528,14 +504,12 @@ elif menu == "Tentang Aplikasi (About)":
             '<div class="card-title">Data Input</div>',
             unsafe_allow_html=True
         )
-
         st.markdown(
             """
             <div style='text-align: justify;'>
-
-            - Band 10 (Thermal Infared) : Untuk memperoleh informasi suhu permukaan melalui perhitungan Brightness Temperature.
-            - Band 4 (Red) dan Band 5 (NIR) : Untuk menghitung NDVI yang digunakan dalam estimasi emisivitas permukaan (LSE).
-            - Metadata Landsat (MTL) : Unntuk mengambil nilai ML, AL, K1, dan K2. 
+            - <b>Band 10 (Thermal Infrared)</b> : Untuk memperoleh informasi suhu permukaan melalui perhitungan Brightness Temperature.<br>
+            - <b>Band 4 (Red) dan Band 5 (NIR)</b> : Untuk menghitung NDVI yang digunakan dalam estimasi emisivitas permukaan (LSE).<br>
+            - <b>Metadata Landsat (MTL)</b> : Untuk mengambil nilai ML, AL, K1, dan K2. 
             </div>
             """,
             unsafe_allow_html=True
@@ -546,21 +520,17 @@ elif menu == "Tentang Aplikasi (About)":
             '<div class="card-title">Data yang Didukung</div>',
             unsafe_allow_html=True
         )
-
         st.markdown(
             """
             <div style='text-align: justify;'>
-
-            - Landsat 8 OLI/TIRS
+            - Landsat 8 OLI/TIRS<br>
             - Landsat 9 OLI/TIRS
             </div>
             """,
             unsafe_allow_html=True
         )
 
-
     with st.container(border=True):
-
         st.markdown(
             '<div class="card-title">Perhitungan</div>',
             unsafe_allow_html=True
@@ -579,23 +549,17 @@ elif menu == "Tentang Aplikasi (About)":
 
         st.markdown(
             """
-            <div style='text-align: justify;'>
-           Keterangan : 
-
-            - Lλ      = Spectral Radiance (W/m²·sr·μm)
-            - ML      = Radiance Multiplicative Scaling Factor
-            - AL      = Radiance Additive Scaling Factor
-            - Qcal    = Nilai Digital Number (DN)
-
-            - BT      = Brightness Temperature (Kelvin)
-            - K1      = Konstanta Kalibrasi Termal Landsat
-            - K2      = Konstanta Kalibrasi Termal Landsat
-            - Lλ      = Spectral Radiance
-
-            - LST     = Land Surface Temperature (°C)
-            - BT      = Brightness Temperature (°C)
-            - W       = Panjang gelombang efektif Band 10 Landsat (10.895 μm)
-            - ε (LSE) = Land Surface Emissivity
+            <div style='text-align: justify; margin-top: 15px;'>
+            <b>Keterangan :</b><br>
+            - <b>Lλ</b> = Spectral Radiance (W/m²·sr·μm)<br>
+            - <b>ML</b> = Radiance Multiplicative Scaling Factor<br>
+            - <b>AL</b> = Radiance Additive Scaling Factor<br>
+            - <b>Qcal</b> = Nilai Digital Number (DN)<br><br>
+            - <b>BT</b> = Brightness Temperature (Kelvin)<br>
+            - <b>K1 / K2</b> = Konstanta Kalibrasi Termal Landsat<br><br>
+            - <b>LST</b> = Land Surface Temperature (°C)<br>
+            - <b>W</b> = Panjang gelombang efektif Band 10 Landsat (10.895 μm)<br>
+            - <b>ε (LSE)</b> = Land Surface Emissivity
             </div>
             """,
             unsafe_allow_html=True
@@ -606,14 +570,12 @@ elif menu == "Tentang Aplikasi (About)":
             '<div class="card-title">Luaran</div>',
             unsafe_allow_html=True
         )
-
         st.markdown(
             """
             <div style='text-align: justify;'>
-
-            - Peta Land Surface Temperature (LST)
-            - Statistik temperatur permukaan (minimum, maksimum, rata-rata, dan median)
-            - Visualisasi distribusi temperatur
+            - Peta Land Surface Temperature (LST)<br>
+            - Statistik temperatur permukaan (minimum, maksimum, rata-rata, dan median)<br>
+            - Visualisasi distribusi temperatur<br>
             - File GeoTIFF yang dapat digunakan pada QGIS dan ArcGIS
             </div>
             """,
@@ -625,11 +587,11 @@ elif menu == "Tentang Aplikasi (About)":
             '<div class="card-title">Manfaat</div>',
             unsafe_allow_html=True
         )
-
         st.markdown(
             """
-            <div style='text-align: justify;'>GeoHeat dapat digunakan sebagai alat bantu pembelajaran geologi, penginderaan jauh, dan eksplorasi panas bumi untuk mendukung identifikasi awal zona anomali temperatur permukaan secara cepat dan efisien.
+            <div style='text-align: justify;'>
+            GeoHeat dapat digunakan sebagai alat bantu pembelajaran geologi, penginderaan jauh, dan eksplorasi panas bumi untuk mendukung identifikasi awal zona anomali temperatur permukaan secara cepat dan efisien.
             </div>
             """,
             unsafe_allow_html=True
-        )
+)
