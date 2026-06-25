@@ -65,7 +65,7 @@ st.markdown("""
 .geoheat-title {
     font-size: clamp(34px, 7vw, 60px);
     font-weight: 800;
-    margin-bottom: 8px;
+    margin-bottom: 0px;
     line-height: 1.1;
 }
 
