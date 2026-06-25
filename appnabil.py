@@ -98,7 +98,7 @@ with col1:
 
 with col2:
     st.markdown("""
-    <div style="padding-top:40px;">
+    <div style="padding-top:50px;">
     <div class="geoheat-title">
         <span class="geo-blue">Geo</span><span class="heat-orange">Heat</span>
     </div>
