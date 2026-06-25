@@ -83,7 +83,7 @@ st.markdown("""
     font-size: clamp(12px, 3.5vw, 20px);
     font-weight: 600;
     line-height: 1.4;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.05em;
 }
 </style>
 """, unsafe_allow_html=True)
