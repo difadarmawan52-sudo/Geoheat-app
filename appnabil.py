@@ -93,7 +93,7 @@ col1, col2 = st.columns([1,4])
 with col1:
     st.image(
         "logo_geoheat.png",
-        width=160
+        width=200
     )
 
 with col2:
